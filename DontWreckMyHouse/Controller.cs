@@ -10,7 +10,14 @@ namespace DontWreckMyHouse.UI
     {
         internal void Run()
         {
-            throw new NotImplementedException();
+            var model = new Model();
+            var view = new View();
+            var controller = new Controller(model, view);
+            view.Controller = controller;
+            view.Run();
+
+
+
         }
     }
 }

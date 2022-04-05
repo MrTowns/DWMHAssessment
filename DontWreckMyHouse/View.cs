@@ -8,5 +8,7 @@ namespace DontWreckMyHouse.UI
 {
     internal class View
     {
+        
+        
     }
 }
