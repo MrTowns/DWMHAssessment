@@ -23,6 +23,11 @@ namespace DontWreckMyHouse.DAL
             throw new NotImplementedException();
         }
 
+        public Reservation CalcTotal(Reservation reservation)
+        {
+            throw new NotImplementedException();
+        }
+
         public Reservation Edit(Reservation reservation)
         {
             throw new NotImplementedException();

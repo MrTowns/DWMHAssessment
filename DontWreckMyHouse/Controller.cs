@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DontWreckMyHouse.UI
 {
-    internal class Controller
+    public class Controller
     {
-        internal void Run()
+        public void Run()
         {
             var model = new Model();
             var view = new View();

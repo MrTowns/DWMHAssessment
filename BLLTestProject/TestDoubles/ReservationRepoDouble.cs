@@ -8,9 +8,24 @@ using System.Threading.Tasks;
 
 namespace DontWreckMyHouse.BLL.Tests.TestDoubles
 {
-    internal class ReservationRepoDouble : IReservationRepo
+    public class ReservationRepoDouble : IReservationRepo
     {
+        private readonly List<Reservation> _reservation = new List<Reservation>();
+        Reservation reservation = new Reservation()
+        {
+            Id = 1,
+            StartDate = new DateTime(2018, 1, 1),
+            EndDate = new DateTime(2018, 1, 2),
+            GuestId = "1",
+            Total = 1000.00M
+        };
+
         public Reservation Add(Reservation reservation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Reservation CalcTotal(Reservation reservation)
         {
             throw new NotImplementedException();
         }
@@ -30,4 +45,5 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
             throw new NotImplementedException();
         }
     }
+       
 }

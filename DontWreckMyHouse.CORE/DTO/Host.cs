@@ -8,7 +8,9 @@ namespace DontWreckMyHouse.CORE.DTO
 {
     public class Host
     {
-        public int HostId { get; set; }
+        public string HostId { get; set; }
+
+        public string HostName { get; set; }
 
         public string Email { get; set;  }
 
@@ -22,9 +24,9 @@ namespace DontWreckMyHouse.CORE.DTO
 
         public string PostalCode { get; set; }
 
-        public string StandardRate { get; set; }
+        public decimal StandardRate { get; set; }
 
-        public string WeekendRate { get; set; }
+        public decimal WeekendRate { get; set; }
         
         
     }

@@ -1,4 +1,5 @@
-﻿using DontWreckMyHouse.CORE.Interfaces;
+﻿using DontWreckMyHouse.CORE.DTO;
+using DontWreckMyHouse.CORE.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,11 @@ namespace DontWreckMyHouse.DAL
         public HostRepo(string filePath)
         {
             this.filePath = filePath;
+        }
+
+        public Result<Host> GetAll(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

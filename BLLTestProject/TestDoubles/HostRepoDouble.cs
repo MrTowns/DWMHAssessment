@@ -10,17 +10,35 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
 {
     public class HostRepoDouble : IHostRepo
     {
-        public static readonly Host host = new("123", "Hudson", "123foobar@yahoo.com", "");
-        private readonly Results<list<Host>> host = new Result<list<Host>>
-        
-        
-        public List<Host> GetAllHosts()
+        private readonly Result<List<Host>> hosts = new Result<List<Host>>();
+        List<Host> listHost = new List<Host>()
         {
+            new()
+            {
 
+                    HostId = "1",
+                    HostName = "John",
+                    Email = "123foobar@yahoo.coom",
+                    Phone = "5555555555",
+                    Address = "123 Fake St",
+                    City = "Faketown",
+                    State = "FL",
+                    PostalCode = "12345",
+                    StandardRate = 100.00M,
+                    WeekendRate = 150.00M,
+                   
+            }
+        };
+        public Result<List<Host>> GetAll()
+        {
+            return new Result<List<Host>>();
+        }
 
-
-
-
+        public Result<Host> GetAll(int id)
+        {
+            throw new NotImplementedException();
         }
     }
 }
+
+       

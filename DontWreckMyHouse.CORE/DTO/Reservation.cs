@@ -8,19 +8,29 @@ namespace DontWreckMyHouse.CORE.DTO
 {
     public class Reservation
     {
+        //id,start_date,end_date,guest_id,total
+        public string HostId { get; set; }
+        
         public int Id { get; set; }
 
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
 
-        public Guest GuestId { get; set; }
-
-        public Host HostId { get; set;  }
+        public string GuestId { get; set; }
 
         public decimal Total { get; set; }
 
         public decimal GetTotal { get; set; }
+
+        
+
+
+
+
+
+
+        
        /* {
             decimal weekendPrice = 0M;
             decimal weekdayPrice = 0M;

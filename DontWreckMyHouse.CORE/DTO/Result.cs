@@ -8,14 +8,16 @@ namespace DontWreckMyHouse.CORE.DTO
 {
     public class Result<T>
     {
-        private List<string> messages = new List<string>();
-        public bool Success => messages.Count == 0;
-        public List<string> Messages => new List<string>(messages);
-        public T Value { get; set; }
+        public bool Success { get; set; }
 
-        public void AddMessage(string message)
-        {
-            messages.Add(message);
-        }
+        public string Message { get; set; }
+        public Result<T> Data { get; set; }
+
+        
+
+        
     }
 }
+/*private List<string> messages = new List<string>();
+public bool Success => messages.Count == 0;
+public List<string> Messages => new List<string>(messages);*/

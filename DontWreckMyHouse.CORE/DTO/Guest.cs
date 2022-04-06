@@ -21,3 +21,4 @@ namespace DontWreckMyHouse.CORE.DTO
         public string State { get; set; }
     }
 }
+

@@ -18,5 +18,7 @@ namespace DontWreckMyHouse.CORE.Interfaces
 
         public Reservation Edit(Reservation reservation);
         
+        public Reservation CalcTotal(Reservation reservation);
+        
     }
 }
