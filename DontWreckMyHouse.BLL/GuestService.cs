@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DontWreckMyHouse.BLL.Tests.TestDoubles
+namespace DontWreckMyHouse.BLL
 {
-    public class GuestRepoDouble
+    public class GuestService
     {
     }
 }
