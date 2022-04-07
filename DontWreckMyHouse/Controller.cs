@@ -16,6 +16,8 @@ namespace DontWreckMyHouse.UI
         private readonly HostService _hostService;
         private GuestService _guestService;
         private readonly View view;
+        
+        
         public Controller(ReservationService reservationService, HostService hostService, GuestService guestService, View view)
         {
             _reservationService = reservationService;
@@ -42,8 +44,11 @@ namespace DontWreckMyHouse.UI
         private void RunAppLoop()
         {
             MainMenuOption option;
-            
-            
+            bool running = true;
+            while (running)
+            {
+
+
                 option = view.SelectMainMenuOption();
                 switch (option)
                 {
@@ -63,8 +68,10 @@ namespace DontWreckMyHouse.UI
                         CancelReservation();
                         break;
                     
+             
+                    
                 }
-            
+            }
         }
 
         
@@ -92,8 +99,8 @@ namespace DontWreckMyHouse.UI
                 return;
             }
             Reservation reservation = view.CreateReservation(host, guest);
-            Result<Reservation> result = _reservationService.MakeReservation(reservation);
-            if (!result.IsSuccess)
+            Result<Reservation> result = _reservationService.Add(reservation);
+            if (!result.Success)
             {
                 view.DisplayReservation(false, result.Message);
             }

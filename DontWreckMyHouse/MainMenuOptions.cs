@@ -13,7 +13,7 @@ namespace DontWreckMyHouse.UI
         MakeReservation,
         EditReservation,
         CancelReservation,
-       
+        Generate,
     }
 
     public static class MainMenuOptionExtensions

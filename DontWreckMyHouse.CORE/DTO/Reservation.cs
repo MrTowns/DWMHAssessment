@@ -8,6 +8,9 @@ namespace DontWreckMyHouse.CORE.DTO
 {
     public class Reservation
     {
+        public Host Host;
+        public Guest Guest;
+
         //id,start_date,end_date,guest_id,total
         public string HostId { get; set; }
         

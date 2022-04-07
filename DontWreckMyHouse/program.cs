@@ -1,7 +1,8 @@
 ﻿using Ninject;
 using System;
 using System.IO;
-
+using DontWreckMyHouse.BLL;
+using DontWreckMyHouse.DAL;
 namespace DontWreckMyHouse.UI
 {
     public class Program

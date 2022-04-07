@@ -40,11 +40,7 @@ namespace DontWreckMyHouse.UI
             return options[io.ReadInt(message, min, max)];
         }
 
-        public DateTime GetForageDate()
-        {
-            DisplayHeader(MainMenuOption.ViewForagesByDate.ToLabel());
-            return io.ReadDate("Select a date [MM/dd/yyyy]: ");
-        }
+        
 
 
         public void DisplayReservation(bool success, string message)
