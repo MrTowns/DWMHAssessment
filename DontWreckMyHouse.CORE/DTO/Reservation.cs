@@ -51,22 +51,7 @@ namespace DontWreckMyHouse.CORE.DTO
 
 
 
-        /* {
-             decimal weekendPrice = 0M;
-             decimal weekdayPrice = 0M;
-             for (var day = StartDate.Date; day <= EndDate.Date; day = day.AddDays(1))
-             {
-                 if (day.DayOfWeek == DayOfWeek.Sunday || day.DayOfWeek == DayOfWeek.Saturday)
-             {
-                 weekendPrice = weekendPrice + Host.WeekendRate;
-             }
-                 else
-                 {
-                 weekdayPrice = weekdayPrice + Host.RegRate;
-                 }
-             }
-             decimal cost = weekdayPrice + weekendPrice;
-             return cost;*/
+       
 
     }
 }

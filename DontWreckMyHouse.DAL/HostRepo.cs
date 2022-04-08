@@ -18,12 +18,6 @@ namespace DontWreckMyHouse.DAL
         {
             this.filePath = filePath;
         }
-
-        public Result<Host> GetAll(int id)
-        {
-            throw new NotImplementedException();
-        }
-
         public List<Host> FindAllHost()
         {
             var hosts = new List<Host>();
@@ -74,7 +68,8 @@ namespace DontWreckMyHouse.DAL
 
         public Host FindByEmail(string email)
         {
-            throw new NotImplementedException();
+            var hosts = FindAllHost();
+            return hosts.FirstOrDefault(h => h.Email == email);
         }
     }
 }

@@ -20,9 +20,12 @@ namespace DontWreckMyHouse.BLL
         }
 
 
-        public Result<List<Host>> GetAll()
+       
+        public List<Host> FindByHostLastName(string prefix)
         {
-            throw new NotImplementedException();
+            return _hostRepo.FindAllHost()
+                .Where(h => h.LastName.StartsWith(prefix))
+                .ToList();
         }
     }
 }

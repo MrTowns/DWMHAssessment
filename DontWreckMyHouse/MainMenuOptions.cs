@@ -21,7 +21,7 @@ namespace DontWreckMyHouse.UI
         public static string ToLabel(this MainMenuOption option) => option switch
         {
             MainMenuOption.Exit => "Exit",
-            MainMenuOption.ViewReservationsForHost => "View View reservation for host",
+            MainMenuOption.ViewReservationsForHost => "View reservation for host",
             MainMenuOption.MakeReservation => "Make reservation",
             MainMenuOption.EditReservation => "Edit reservation",
             MainMenuOption.CancelReservation => "cancel reservation",

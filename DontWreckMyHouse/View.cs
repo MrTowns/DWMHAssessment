@@ -104,7 +104,35 @@ namespace DontWreckMyHouse.UI
             }
             return allHost[index - 1];
         }
+        public Guest ChooseGuests(List<Guest> allGuest)
+        {
+            if (allGuest == null || allGuest.Count == 0)
+            {
+                io.PrintLine("No Guest found");
+                return null;
+            }
 
+            int index = 1;
+            foreach (Guest guest in allGuest.Take(25))
+            {
+                io.PrintLine($"{index++}: {guest.FirstName} {guest.LastName} {guest.Email} {guest.State}");
+            }
+            index--;
+
+            if (allGuest.Count > 25)
+            {
+                io.PrintLine("More than 25 Guest found. Showing first 25. Please refine your search.");
+            }
+            io.PrintLine("0: Exit");
+            string message = $"Select a Guest by their index [0-{index}]: ";
+
+            index = io.ReadInt(message, 0, index);
+            if (index <= 0)
+            {
+                return null;
+            }
+            return allGuest[index - 1];
+        }
         public Reservation MakeReservation(Host host, Guest guest)
         {
             Reservation reservation = new Reservation();
@@ -115,7 +143,40 @@ namespace DontWreckMyHouse.UI
 
             return reservation;
         }
-
+        public Reservation DeleteReservation(Host host, Guest guest)
+        {
+            Reservation reservation = new Reservation();
+            reservation.Guest = guest;
+            reservation.Host = host;
+            reservation.Id = io.ReadInt("Enter the reservation ID to cancel: ");
+            return reservation;
+        }
+        public Reservation GetReservationId()
+        {
+            Reservation reservation = new Reservation();
+            reservation.Id = io.ReadInt("Enter the reservation ID to Update: ");
+            return reservation;
+        }
+        public Reservation EditReservation(Host host, Guest guest, Reservation reservationId)
+        {
+            Reservation reservation = new Reservation();
+            reservation.Guest = guest;
+            reservation.Host = host;
+            reservation.Id = reservationId.Id;
+            reservation.StartDate = reservationId.StartDate;
+            reservation.EndDate = reservationId.EndDate;
+            string startDate = io.ReadString($"Enter Start Date (mm/dd/yyyy) {reservationId.StartDate}: ");
+            string endDate = io.ReadString($"Enter End Date (mm/dd/yyyy) {reservationId.EndDate}: ");
+            if (!string.IsNullOrEmpty(startDate))
+            {
+                reservation.StartDate = DateOnly.Parse(startDate);
+            }
+            if (!string.IsNullOrEmpty(endDate))
+            {
+                reservation.EndDate = DateOnly.Parse(endDate);
+            }
+            return reservation;
+        }
         public void EnterToContinue()
         {
             io.ReadString("Press [Enter] to continue.");
@@ -205,7 +266,37 @@ namespace DontWreckMyHouse.UI
             }
 
         }
-
+        public bool DisplayFutureReservations(List<Reservation> reservations)  //Switch this over to BLL, View should not be returning anything
+        {
+            if (reservations == null || reservations.Count == 0)
+            {
+                io.PrintLine("Host has no reservations.");
+                return false;
+            }
+            DateOnly today = DateOnly.FromDateTime(DateTime.Now);
+            var orderedReservations = reservations
+                .Where(r => r.StartDate > today)
+                .OrderBy(r => r.StartDate);
+            bool hasDates = orderedReservations.Any();
+            if (!hasDates)
+            {
+                io.PrintLine("No Future reservation to be removed");
+                return false;
+            }
+            foreach (Reservation reservation in orderedReservations)
+            {
+                io.PrintLine(
+                    string.Format("ID: {0} - From [{1} - {2}] Name: {3} {4}, Location: {5},{6}",
+                        reservation.Id,
+                        reservation.StartDate,
+                        reservation.EndDate,
+                        reservation.Guest.FirstName,
+                        reservation.Guest.LastName,
+                        reservation.Host.City,
+                        reservation.Host.State));
+            }
+            return true;
+        }
     }
 
 }

@@ -51,6 +51,16 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
         {
             throw new NotImplementedException();
         }
+
+        bool IReservationRepo.Edit(Reservation reservation)
+        {
+            throw new NotImplementedException();
+        }
+
+        bool IReservationRepo.Remove(Reservation reservation)
+        {
+            throw new NotImplementedException();
+        }
     }
        
 }

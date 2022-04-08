@@ -36,12 +36,7 @@ namespace DontWreckMyHouse.BLL
         
 
         
-        public List<Host> FindByHostLastName(string prefix)
-        {
-            return _hostRepo.FindAllHost()
-                .Where(h => h.LastName.StartsWith(prefix))
-                .ToList();
-        }
+       
         public Result<Reservation> MakeReservation(Reservation reservation)
         {
             Result<Reservation> result = Validate(reservation);
@@ -54,20 +49,42 @@ namespace DontWreckMyHouse.BLL
             return result;
         }
 
-        public Result<Reservation> Remove(Reservation reservation)
+        public bool Remove(Reservation reservation)
         {
-            throw new NotImplementedException();
+            return _reservationRepo.Remove(reservation);
         }
-
-        public Result<Reservation> Edit(Reservation reservation)
+        public Result<Reservation> CheckB4Update(Reservation reservation)
         {
-            throw new NotImplementedException();
+            Result<Reservation> result = Validate(reservation);
+            if (!result.Success)
+            {
+                return result;
+            }
+            reservation.Total = reservation.GetTotal();
+            result.Value = reservation;
+            return result;
+        }
+        public bool Edit(Reservation reservation)
+        {
+            return _reservationRepo.Edit(reservation);
         }
 
         public Result<Reservation> AddReservation(Reservation reservation)
         {
             Result<Reservation> result = new();
             result.Value = _reservationRepo.AddReservation(reservation);
+            return result;
+        }
+
+        public Result<Reservation> GetReservationID(List<Reservation> reservations, int reservationId)
+        {
+            Result<Reservation> result = new Result<Reservation>();
+            Reservation reservation = reservations.FirstOrDefault(x => x.Id == reservationId);
+            if (reservation == null)
+            {
+                result.AddMessage($"Reservation with id {reservationId} does not exist.");
+            }
+            result.Value = reservation;
             return result;
         }
         private Result<Reservation> Validate(Reservation reservation)
@@ -138,14 +155,14 @@ namespace DontWreckMyHouse.BLL
 
         private void ValidateChildrenExist(Reservation reservation, Result<Reservation> result)
         {
-            if (reservation.Host.Id == null
-                    || _hostRepo.FindByEmail(reservation.Host.Email) == null)
+            if (reservation.Host.Id == null)
+                   // || _hostRepo.FindByEmail(reservation.Host.Email) == null)
             {
                 result.AddMessage("Host does not exist.");
             }
 
-            if (reservation.Host.Id == null
-                    || _guestRepo.FindByEmail(reservation.Guest.Email) == null)
+            if (reservation.Host.Id == null)
+                   // || _guestRepo.FindByEmail(reservation.Guest.Email) == null)
             {
                 result.AddMessage("Guest does not exist.");
             }

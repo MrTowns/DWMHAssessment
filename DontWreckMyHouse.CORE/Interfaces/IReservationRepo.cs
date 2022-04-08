@@ -14,11 +14,11 @@ namespace DontWreckMyHouse.CORE.Interfaces
 
         public Reservation AddReservation(Reservation reservation);
 
-        public Reservation Remove(Reservation reservation);
+        public bool Remove(Reservation reservation);
 
-        public Reservation Edit(Reservation reservation);
+        public bool Edit(Reservation reservation);
         
-        public Reservation CalcTotal(Reservation reservation);
+       
         
     }
 }

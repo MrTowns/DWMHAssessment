@@ -13,18 +13,10 @@ namespace DontWreckMyHouse.DAL
     {
         private const string HEADER = "id,start_date,end_date,guest_id,total";
         private readonly string directory;
-
-
-
-
-
-
-
-
-
-
-
-
+        public ReservationRepo(string directory)
+        {
+            this.directory = directory;
+        }
 
         public List<Reservation> FindByHost(string hostId)
         {
@@ -95,40 +87,74 @@ namespace DontWreckMyHouse.DAL
                     reservation.Guest.Id, //write id of guest instead of just the guest
                     reservation.Total);
         }
-
-       
-        public ReservationRepo(string directory)
+        private void Write(List<Reservation> reservations, string hostID)
         {
-            this.directory = directory;
+            try
+            {
+                using StreamWriter writer = new StreamWriter(GetFilePath(hostID));
+                writer.WriteLine(HEADER);
+
+                if (reservations == null)
+                {
+                    return;
+                }
+
+                foreach (var reservation in reservations)
+                {
+                    writer.WriteLine(Serialize(reservation));
+                }
+            }
+            catch (IOException ex)
+            {
+                throw new RepositoryException("could not write forages", ex);
+            }
         }
 
-        public Reservation Add(Reservation reservation)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Reservation CalcTotal(Reservation reservation)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Reservation Edit(Reservation reservation)
-        {
-            throw new NotImplementedException();
-        }
+
 
         
-
-        
-
-        public Reservation Remove(Reservation reservation)
+        public bool Edit(Reservation reservation)
         {
-            throw new NotImplementedException();
+            List<Reservation> all = FindByHost(reservation.Host.Id);
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i].Id == reservation.Id)
+                {
+                    all[i] = reservation;
+                    Write(all, reservation.Host.Id);
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool Remove(Reservation reservation)
+        {
+            List<Reservation> all = FindByHost(reservation.Host.Id);
+            for (int i = 0; i < all.Count; i++)
+            {
+                if (all[i].Id == reservation.Id)
+                {
+                    all.RemoveAt(i);
+                    Write(all, reservation.Host.Id);
+                    return true;
+                }
+            }
+            return false;
         }
 
         public Reservation AddReservation(Reservation reservation)
         {
-            throw new NotImplementedException();
+            List<Reservation> all = FindByHost(reservation.Host.Id);
+            int nextId = (all.Count == 0 ? 0 : all.Max(i => i.Id)) + 1;
+            reservation.Id = nextId;
+            all.Add(reservation);
+            Write(all, reservation.Host.Id);
+            return reservation;
         }
+        
+
+        
     }
 }

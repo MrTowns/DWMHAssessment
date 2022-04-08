@@ -9,7 +9,9 @@ namespace DontWreckMyHouse.CORE.Interfaces
 {
     public interface IGuestRepo
     {
-        public List<Guest> FindAllGuest();
+       
         public Guest FindByEmail(string email);
+
+        public List<Guest> FindAllGuest();
     }
 }

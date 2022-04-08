@@ -16,9 +16,12 @@ namespace DontWreckMyHouse.BLL
         {
             _guestRepo = guestRepo;
         }
-        public Result<List<Guest>> GetAll()
+        
+        public List<Guest> FindByGuestLastName(string prefix)
         {
-            throw new NotImplementedException();
+            return _guestRepo.FindAllGuest()
+                .Where(h => h.LastName.StartsWith(prefix))
+                .ToList();
         }
     }
 }

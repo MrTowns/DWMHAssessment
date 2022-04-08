@@ -9,7 +9,7 @@ namespace DontWreckMyHouse.CORE.Interfaces
 {
     public interface IHostRepo
     {
-        public Result<Host> GetAll(int id);
+        
         public List<Host> FindAllHost();
         public Host FindByEmail(string email);
     }

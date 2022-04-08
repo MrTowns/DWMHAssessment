@@ -124,29 +124,119 @@ namespace DontWreckMyHouse.UI
 
             }
         }
-            private Host GetHost()
+        private void CancelReservation()
+        {
+            view.DisplayHeader(MainMenuOption.CancelReservation.ToLabel());
+            Host host = GetHost();
+            List<Reservation> reservations = _reservationService.FindAllReservation(host.Id);
+            if (!view.DisplayReservationsByHost(reservations))
+            {
+                return;
+            }
+            Guest guest = GetGuest();
+            if (guest == null)
+            {
+                return;
+            }
+            view.DisplayHeader($"Displaying all reservations for {host.LastName} - {host.Email}");
+            if (view.DisplayFutureReservations(reservations))
+            {
+                Reservation reservation = view.DeleteReservation(host, guest);
+                bool result = _reservationService.Remove(reservation);
+                if (!result)
+                {
+                    string failMessage = $"Reservation could not be found";
+                    view.DisplayStatus(false, failMessage);
+                }
+                else
+                {
+                    string successMessage = $"Reservation {reservation.Id} cancelled.";
+                    view.DisplayStatus(true, successMessage);
+                }
+            }
+            else
+            {
+                return;
+            }
+        }
+
+
+        private void EditReservation()
+        {
+            view.DisplayHeader(MainMenuOption.EditReservation.ToLabel());
+            Host host = GetHost();
+            List<Reservation> reservations = _reservationService.FindAllReservation(host.Id);
+            if (!view.DisplayReservationsByHost(reservations))
+            {
+                return;
+            }
+            Guest guest = GetGuest();
+            if (guest == null)
+            {
+                return;
+            }
+            view.DisplayHeader($"Displaying all reservations for {host.LastName} - {host.Email}");
+            if (view.DisplayFutureReservations(reservations))
+            {
+                Reservation reservationIdFromUser = view.GetReservationId();
+                Result<Reservation> reservationId = _reservationService.GetReservationID(reservations, reservationIdFromUser.Id);
+                if (!reservationId.Success)
+                {
+                    view.DisplayStatus(false, reservationId.Message);
+                    return;
+                }
+                Reservation reservation = view.EditReservation(host, guest, reservationId.Value);
+                Result<Reservation> result = _reservationService.CheckB4Update(reservation);
+                if (!result.Success)
+                {
+                    view.DisplayStatus(false, result.Message);
+                }
+                else
+                {
+                    if (view.DisplayTotalPrompt(result))
+                    {
+                        bool output = _reservationService.Edit(reservation);
+                        if (!output)
+                        {
+                            string failMessage = $"Reservation could not be found";
+                            view.DisplayStatus(false, failMessage);
+                        }
+                        else
+                        {
+                            string successMessage = $"Reservation {reservation.Id} Updated.";
+                            view.DisplayStatus(true, successMessage);
+                        }
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }
+
+        }
+
+        private Host GetHost()
         {
             string LastNamePrefix = view.GetLastNamePrefix("Host");
-            List<Host> allHost = _reservationService.FindByHostLastName(LastNamePrefix);
+            List<Host> allHost = _hostService.FindByHostLastName(LastNamePrefix);
             return view.ChooseHosts(allHost);
         }
 
         private Guest GetGuest()
         {
-            throw new NotImplementedException();
+            string LastNamePrefix = view.GetLastNamePrefix("Guest");
+            List<Guest> allGuest = _guestService.FindByGuestLastName(LastNamePrefix);
+            return view.ChooseGuests(allGuest);
         }
 
-        private void CancelReservation()
-        {
-            throw new NotImplementedException();
-        }
+        
 
-        private void EditReservation()
-        {
-            throw new NotImplementedException();
-        }
 
-       
     }
     
 }
