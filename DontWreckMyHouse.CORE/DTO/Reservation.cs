@@ -12,44 +12,61 @@ namespace DontWreckMyHouse.CORE.DTO
         public Guest Guest;
 
         //id,start_date,end_date,guest_id,total
-        public string HostId { get; set; }
+        
         
         public int Id { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateOnly StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateOnly EndDate { get; set; }
 
         public string GuestId { get; set; }
 
         public decimal Total { get; set; }
 
-        public decimal GetTotal { get; set; }
-
-        
-
-
-
-
-
-
-        
-       /* {
+        public decimal GetTotal()
+        {
             decimal weekendPrice = 0M;
             decimal weekdayPrice = 0M;
-            for (var day = StartDate.Date; day <= EndDate.Date; day = day.AddDays(1))
+            for (var day = StartDate; day <= EndDate; day = day.AddDays(1))
             {
                 if (day.DayOfWeek == DayOfWeek.Sunday || day.DayOfWeek == DayOfWeek.Saturday)
-            {
-                weekendPrice = weekendPrice + Host.WeekendRate;
-            }
+                {
+                    weekendPrice = weekendPrice + Host.WeekendRate;
+                }
                 else
                 {
-                weekdayPrice = weekdayPrice + Host.RegRate;
+                    weekdayPrice = weekdayPrice + Host.StandardRate;
                 }
             }
             decimal cost = weekdayPrice + weekendPrice;
-            return cost;*/
-        
+            return cost;
+        }
+
+
+
+
+
+
+
+
+
+        /* {
+             decimal weekendPrice = 0M;
+             decimal weekdayPrice = 0M;
+             for (var day = StartDate.Date; day <= EndDate.Date; day = day.AddDays(1))
+             {
+                 if (day.DayOfWeek == DayOfWeek.Sunday || day.DayOfWeek == DayOfWeek.Saturday)
+             {
+                 weekendPrice = weekendPrice + Host.WeekendRate;
+             }
+                 else
+                 {
+                 weekdayPrice = weekdayPrice + Host.RegRate;
+                 }
+             }
+             decimal cost = weekdayPrice + weekendPrice;
+             return cost;*/
+
     }
 }

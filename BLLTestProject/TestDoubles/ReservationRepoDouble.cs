@@ -14,13 +14,18 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
         Reservation reservation = new Reservation()
         {
             Id = 1,
-            StartDate = new DateTime(2018, 1, 1),
-            EndDate = new DateTime(2018, 1, 2),
+            StartDate = new DateOnly(2018, 1, 1),
+            EndDate = new DateOnly(2018, 1, 2),
             GuestId = "1",
             Total = 1000.00M
         };
 
         public Reservation Add(Reservation reservation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Reservation AddReservation(Reservation reservation)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +40,9 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
             throw new NotImplementedException();
         }
 
-        public List<Reservation> FindByHost(Host host)
+       
+
+        public List<Reservation> FindByHost(string hostid)
         {
             throw new NotImplementedException();
         }

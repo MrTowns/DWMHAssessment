@@ -16,19 +16,30 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
             new()
             {
 
-                    HostId = "1",
-                    HostName = "John",
+                    Id = "1",
+                    LastName = "Johnson",
                     Email = "123foobar@yahoo.coom",
                     Phone = "5555555555",
                     Address = "123 Fake St",
                     City = "Faketown",
                     State = "FL",
-                    PostalCode = "12345",
+                    PostalCode = 12345,
                     StandardRate = 100.00M,
                     WeekendRate = 150.00M,
                    
             }
         };
+
+        public List<Host> FindAllHost()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Host FindByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public Result<List<Host>> GetAll()
         {
             return new Result<List<Host>>();

@@ -13,9 +13,15 @@ namespace DontWreckMyHouse.CORE.DTO
         public string Message { get; set; }
         public Result<T> Data { get; set; }
 
+        public T Value { get; set; }
         
+        private List<string> messages = new List<string>();
+        public void AddMessage(string message)
+        {
+            messages.Add(message);
+        }
 
-        
+
     }
 }
 /*private List<string> messages = new List<string>();

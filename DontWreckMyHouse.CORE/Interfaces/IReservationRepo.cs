@@ -10,9 +10,9 @@ namespace DontWreckMyHouse.CORE.Interfaces
 {
     public interface IReservationRepo
     {
-        public List<Reservation> FindByHost(Host host);
+        public List<Reservation> FindByHost(string hostid);
 
-        public Reservation Add(Reservation reservation);
+        public Reservation AddReservation(Reservation reservation);
 
         public Reservation Remove(Reservation reservation);
 

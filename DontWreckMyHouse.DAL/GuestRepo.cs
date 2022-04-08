@@ -1,4 +1,5 @@
-﻿using DontWreckMyHouse.CORE.Interfaces;
+﻿using DontWreckMyHouse.CORE.DTO;
+using DontWreckMyHouse.CORE.Interfaces;
 
 namespace DontWreckMyHouse.DAL
 {
@@ -10,6 +11,16 @@ namespace DontWreckMyHouse.DAL
         public GuestRepo(string filePath)
         {
             this.filePath = filePath;
+        }
+
+        public List<Guest> FindAllGuest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guest FindByEmail(string email)
+        {
+            throw new NotImplementedException();
         }
     }
 }

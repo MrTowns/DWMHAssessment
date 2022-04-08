@@ -53,28 +53,68 @@ namespace DontWreckMyHouse.UI
             Reservation reservation = new Reservation();
             reservation.Host = host;
             reservation.Guest = guest;
-            reservation.StartDate = io.ReadDate("Reservation start date [MM/dd/yyyy]: ");
-            reservation.EndDate = io.ReadDate("Reservation end date [MM/dd/yyyy]: ");
+            reservation.StartDate = io.ReadDate("Enter Start Date (mm/dd/yyyy): ");
+            reservation.EndDate = io.ReadDate("Enter End Date (mm/dd/yyyy): ");
             //reservation.TotalPrice = standardrate/weekendrate
 
             return reservation;
         }
-        public DateTime GetStartDate()
+        public DateOnly GetStartDate()
         {
             DisplayHeader("Choose a reservation start date: ");
             return io.ReadDate("Select a date [MM/dd/yyyy]: ");
         }
-        public DateTime GetEndDate()
+        public DateOnly GetEndDate()
         {
             DisplayHeader("Choose a reservation end date: ");
             return io.ReadDate("Select a date [MM/dd/yyyy]: ");
         }
 
+        public string GetLastNamePrefix(string message)
+        {
+            return io.ReadRequiredString($"Enter {message} last name starting with: ");
+        }
 
+        public Host? ChooseHosts(List<Host> allHost)
+        {
+            if (allHost == null || allHost.Count == 0)
+            {
+                io.PrintLine("No Host found");
+                return null;
+            }
 
+            int index = 1;
+            foreach (Host host in allHost.Take(25))
+            {
+                io.PrintLine($"{index++}: Host:{host.LastName} [{host.City},{host.State}] {host.Email}, Standard Rate:{host.StandardRate:c} - Weekend Rate:{host.WeekendRate:c}");
+            }
+            index--;
 
+            if (allHost.Count > 25)
+            {
+                io.PrintLine("More than 25 Host found. Showing first 25. Please refine your search.");
+            }
+            io.PrintLine("0: Exit");
+            string message = $"Select a Host by their index [0-{index}]: ";
 
+            index = io.ReadInt(message, 0, index);
+            if (index <= 0)
+            {
+                return null;
+            }
+            return allHost[index - 1];
+        }
 
+        public Reservation MakeReservation(Host host, Guest guest)
+        {
+            Reservation reservation = new Reservation();
+            reservation.Guest = guest;
+            reservation.Host = host;
+            reservation.StartDate = io.ReadDate("Enter Start Date (mm/dd/yyyy): ");
+            reservation.EndDate = io.ReadDate("Enter End Date (mm/dd/yyyy): ");
+
+            return reservation;
+        }
 
         public void EnterToContinue()
         {
@@ -99,7 +139,6 @@ namespace DontWreckMyHouse.UI
         {
             DisplayStatus(success, new List<string>() { message });
         }
-
         public void DisplayStatus(bool success, List<string> messages)
         {
             DisplayHeader(success ? "Success" : "Error");
@@ -108,8 +147,65 @@ namespace DontWreckMyHouse.UI
                 io.PrintLine(message);
             }
         }
+        public bool DisplayReservationsByHost(List<Reservation> reservations)
+        {
+            if (reservations == null || reservations.Count == 0)
+            {
+                io.PrintLine("Host has no reservations.");
+                return false;
+            }
 
-       
+            var orderedReservations = reservations.OrderBy(r => r.StartDate);
+            foreach (Reservation reservation in orderedReservations)
+            {
+                io.PrintLine(
+                    string.Format("ID: {0}, {1} - {2}, Guest: {3}, {4}, Email: {5}",
+                        reservation.Id,
+                        reservation.StartDate,
+                        reservation.EndDate,
+                        reservation.Guest.FirstName,
+                        reservation.Guest.LastName,
+                        reservation.Guest.Email));
+            }
+            return true;
+        }
+        public void DisplayReservations(List<Reservation> reservations)
+        {
+            if (reservations == null || reservations.Count == 0)
+            {
+                io.PrintLine("Host has no reservations.");
+                return;
+            }
+            var orderedReservations = reservations.OrderBy(r => r.StartDate);
+            foreach (Reservation reservation in orderedReservations)
+            {
+                io.PrintLine(
+                    string.Format("ID: {0}, {1} - {2}",
+                        reservation.Id,
+                        reservation.StartDate,
+                        reservation.EndDate));
+            }
+        }
+        public bool DisplayTotalPrompt(Result<Reservation> result)
+        {
+            DisplayHeader("Summary");
+            io.PrintLine(
+                string.Format("Start: {0}\nEnd {1}\nTotal: {2:C2}",
+                    result.Value.StartDate,
+                    result.Value.EndDate,
+                    result.Value.Total));
+
+            if (io.ReadBool("Is this Okay? [y/n]: "))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
     }
 
 }

@@ -1,7 +1,7 @@
 ﻿using DontWreckMyHouse.BLL;
 using DontWreckMyHouse.CORE.DTO;
 using DontWreckMyHouse.CORE.Interfaces;
-using SustainableForaging.Core.Exceptions;
+using DontWreckMyHouse.CORE.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +74,67 @@ namespace DontWreckMyHouse.UI
             }
         }
 
-        
+        private void Exit()
+        {
+            Environment.Exit(0);
+        }
+
+
+        private void ViewHost()
+        {
+            var host = GetHost();
+            List<Reservation> reservations = _reservationService.FindAllReservation(host.Id);
+            view.DisplayReservationsByHost(reservations);
+            view.EnterToContinue();
+        }
+        private void MakeReservation()
+        {
+            view.DisplayHeader(MainMenuOption.MakeReservation.ToLabel());
+            Host host = GetHost();
+            if (host == null)
+            {
+                return;
+            }
+            Guest guest = GetGuest();
+            if (guest == null)
+            {
+                return;
+            }
+            List<Reservation> reservations = _reservationService.FindAllReservation(host.Id);
+            view.DisplayHeader($"Displaying all reservations for {host.LastName} - {host.Email}");
+            view.DisplayReservations(reservations);
+            Reservation reservation = view.MakeReservation(host, guest);
+            Result<Reservation> result = _reservationService.MakeReservation(reservation);
+            if (!result.Success)
+            {
+                view.DisplayStatus(false, result.Message);
+            }
+            else
+            {
+                if (view.DisplayTotalPrompt(result))
+                {
+                    Result<Reservation> resultToAdd = _reservationService.AddReservation(reservation);
+                    string successMessage = $"Reservation {resultToAdd.Value.Id} created.";
+                    view.DisplayStatus(true, successMessage);
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+        }
+            private Host GetHost()
+        {
+            string LastNamePrefix = view.GetLastNamePrefix("Host");
+            List<Host> allHost = _reservationService.FindByHostLastName(LastNamePrefix);
+            return view.ChooseHosts(allHost);
+        }
+
+        private Guest GetGuest()
+        {
+            throw new NotImplementedException();
+        }
 
         private void CancelReservation()
         {
@@ -86,50 +146,7 @@ namespace DontWreckMyHouse.UI
             throw new NotImplementedException();
         }
 
-        private void MakeReservation()
-        {
-            Host host = GetHost();
-            if (host == null)
-            {
-                return;
-            }
-            Guest guest = GetGuest();
-            if (guest == null)
-            {
-                return;
-            }
-            Reservation reservation = view.CreateReservation(host, guest);
-            Result<Reservation> result = _reservationService.Add(reservation);
-            if (!result.Success)
-            {
-                view.DisplayReservation(false, result.Message);
-            }
-            else
-            {
-                string successMessage = $"Reservation made for {guest.FirstName} {guest.LastName}";
-                view.DisplayReservation(true, successMessage);
-            }
-        }
-
-        private Host GetHost()
-        {
-            throw new NotImplementedException();
-        }
-
-        private Guest GetGuest()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void ViewHost()
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Exit()
-        {
-            Environment.Exit(0);
-        }
+       
     }
     
 }

@@ -22,14 +22,14 @@ namespace DontWreckMyHouse.BLL.Tests
                 // Arrange
                 new()
                 {
-                    HostId = "1",
-                    HostName = "John",
+                    Id = "1",
+                    LastName = "Johnson",
                     Email = "123foobar@yahoo.com",
                     Phone = "5555555555",
                     Address = "123 Fake St",
                     City = "Faketown",
                     State = "FL",
-                    PostalCode = "12345",
+                    PostalCode = 12345,
                     StandardRate = 100.00M,
                     WeekendRate = 150.00M,
 

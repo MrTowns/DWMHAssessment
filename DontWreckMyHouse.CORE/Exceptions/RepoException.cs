@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SustainableForaging.Core.Exceptions
+namespace DontWreckMyHouse.CORE.Exceptions
 {
     public class RepositoryException : Exception
     {

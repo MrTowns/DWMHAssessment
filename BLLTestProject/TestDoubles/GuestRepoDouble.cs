@@ -10,6 +10,16 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
 {
     public class GuestRepoDouble : IGuestRepo
     {
+        public List<Guest> FindAllGuest()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Guest FindByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public class HostRepoDouble 
         {
             private readonly Result<List<Guest>> hosts = new Result<List<Guest>>();
@@ -34,10 +44,7 @@ namespace DontWreckMyHouse.BLL.Tests.TestDoubles
                 return new Result<List<Host>>();
             }
 
-            public Result<Host> GetAll(int id)
-            {
-                throw new NotImplementedException();
-            }
+            
         }
     }
 }
